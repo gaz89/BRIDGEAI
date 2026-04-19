@@ -1,0 +1,87 @@
+# BRIDGE Workshop @ MICCAI 2025  
+**Bridging Regulatory Science and Medical Imaging Evaluation**
+
+🌐 Website: https://your-username.github.io/miccaibridge/  
+
+---
+
+## 🧠 Overview
+Artificial intelligence is rapidly transforming healthcare, but evaluation, monitoring, and regulatory science remain major bottlenecks.
+
+The **BRIDGE Workshop** aims to connect:
+- AI researchers  
+- Clinicians  
+- Regulatory scientists  
+- Industry professionals  
+
+Our goal is to develop **robust evaluation frameworks** and enable **safe deployment of AI systems in healthcare**.
+
+---
+
+## 🎯 Topics of Interest
+We welcome submissions related to:
+
+- Evaluation and validation of AI models  
+- Monitoring and data/model drift detection  
+- Robustness and generalization  
+- Regulatory science for AI/ML systems  
+- Clinical deployment challenges  
+- Explainability and trustworthiness  
+
+---
+
+## 🧾 Call for Papers
+We invite original research papers and position papers.
+
+### Submission Details
+- Format: MICCAI style  
+- Submission Platform: OpenReview (link coming soon)  
+- Double-blind review  
+
+### Important Dates
+- Submission Deadline: TBD  
+- Notification: TBD  
+- Camera Ready: TBD  
+
+---
+
+## 📅 Workshop Schedule
+| Time | Session |
+|------|--------|
+| 09:00 | Opening Remarks |
+| 09:15 | Keynote |
+| 10:00 | Paper Session |
+| 10:30 | Break |
+| 11:00 | Panel Discussion |
+
+---
+
+## 🎤 Invited Speakers
+(To be announced)
+
+---
+
+## 👥 Organizers
+- **Ghada Zamzmi**, HeartFlow  
+- (Add others)
+
+---
+
+## 🤝 Sponsors
+(To be announced)
+
+---
+
+## 📩 Contact
+📧 BRIDGERegSci@gmail.com  
+
+---
+
+## 🔗 Citation (optional)
+If you use or reference this workshop:
+
+```bibtex
+@misc{bridge2025,
+  title={BRIDGE Workshop: Bridging Regulatory Science and Medical Imaging Evaluation},
+  year={2025}
+}
