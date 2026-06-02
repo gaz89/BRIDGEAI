@@ -2,11 +2,11 @@
 
 **Bridging Regulatory Science and Medical Imaging Evaluation**
 
-🌐 Live site: https://bridge-regsci.github.io/miccaibridge/
+🌐 Live site: [https://bridge-regsci.github.io/miccaibridge/](https://gaz89.github.io/BRIDGEAI/)
 
 ---
 
-## The BRIDGE Pipeline
+## From Performance to Patient Benefit 
 
 > **Evaluate it → Measure its clinical value → Deploy it responsibly → Monitor it**
 
