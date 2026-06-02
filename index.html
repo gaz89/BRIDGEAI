@@ -1,123 +1,569 @@
----
-layout: default
-page_id: home
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRIDGE Workshop @ MICCAI 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a1628; --navy-mid: #112240; --blue: #1e6fe6; --blue-bright: #3d8ef0;
+      --teal: #00c9b1; --teal-dim: #009e8e; --cream: #f5f0e8; --text-dark: #0a1628;
+      --text-mid: #2d3f5a; --text-light: #6b7fa3; --white: #ffffff;
+      --s1: #1e6fe6; --s2: #7c3aed; --s3: #059669; --s4: #db6c1a; --nav-h: 60px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; padding-top: var(--nav-h); }
+    a { color: var(--blue); }
+    img { max-width: 100%; display: block; }
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg-1"></div>
-  <div class="hero-bg-2"></div>
-  <div class="hero-grid">
-    <div class="hero-left">
-      <div class="hero-eyebrow">MICCAI 2026 Workshop</div>
-      <h1>BRIDGE<br><em>Workshop</em></h1>
-      <p class="hero-sub">Bridging Regulatory Science and Medical Imaging Evaluation — from technical performance to real-world utility and clinical value.</p>
-      <div class="hero-meta">
-        <div class="meta-item">
-          <span class="meta-label">Date</span>
-          <span class="meta-value">September 27, 2026 · Strasbourg, France</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Venue</span>
-          <span class="meta-value">MICCAI 2026</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Proceedings</span>
-          <span class="meta-value">Springer LNCS</span>
-        </div>
-      </div>
-      <div class="hero-ctas">
-        <a href="{{ site.baseurl }}/submission" class="btn-primary">Submit a Paper</a>
-        <a href="{{ site.baseurl }}/organizers" class="btn-secondary">Meet the Team</a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="pipeline-card">
-        <div class="pipeline-card-title">From Performance to Patient Benefit</div>
-        <div class="p-step">
-          <div class="p-num s1">01</div>
-          <div class="p-body">
-            <div class="p-verb">Evaluate It</div>
-            <div class="p-desc">Rigorous technical assessment of AI model performance</div>
-          </div>
-        </div>
-        <div class="p-step">
-          <div class="p-num s2">02</div>
-          <div class="p-body">
-            <div class="p-verb">Measure Its Value</div>
-            <div class="p-desc">Does it add value, or genuinely improve outcomes and clinical decisions?</div>
-          </div>
-        </div>
-        <div class="p-step">
-          <div class="p-num s3">03</div>
-          <div class="p-body">
-            <div class="p-verb">Deploy It</div>
-            <div class="p-desc">Safe, effective, and responsible clinical deployment</div>
-          </div>
-        </div>
-        <div class="p-step">
-          <div class="p-num s4">04</div>
-          <div class="p-body">
-            <div class="p-verb">Monitor It</div>
-            <div class="p-desc">Post-market monitoring: drift detection, ongoing performance validation, and sustained safety and effectiveness</div>
-          </div>
-        </div>
-        <div class="reg-note">
-          <strong>Regulatory-driven AI innovation.</strong> Every stage of AI development should align with safety standards, and every risk, every failure — must be measured, documented, and mitigated.
-        </div>
-      </div>
+    /* NAV */
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.07); box-shadow: 0 2px 20px rgba(0,0,0,0.04); z-index: 200; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px; height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--navy); text-decoration: none; }
+    .nav-brand span { color: var(--blue); font-style: italic; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--text-mid); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding-bottom: 2px; border-bottom: 2px solid transparent; }
+    .nav-links a:hover, .nav-links a.active { color: var(--blue); border-bottom-color: var(--blue); }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--navy); border-radius: 2px; }
+
+    /* PAGE SECTIONS */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* HERO */
+    .hero { background: var(--navy); position: relative; overflow: hidden; min-height: calc(100vh - var(--nav-h)); }
+    .hero-bg-1 { position: absolute; width: 700px; height: 700px; top: -250px; right: -150px; border-radius: 50%; background: radial-gradient(circle, rgba(30,111,230,0.13) 0%, transparent 70%); pointer-events: none; }
+    .hero-bg-2 { position: absolute; width: 500px; height: 500px; bottom: -200px; left: 20%; border-radius: 50%; background: radial-gradient(circle, rgba(0,201,177,0.08) 0%, transparent 70%); pointer-events: none; }
+    .hero-grid { max-width: 1080px; margin: 0 auto; padding: 80px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 2; min-height: calc(100vh - var(--nav-h)); }
+    .hero-left { display: flex; flex-direction: column; justify-content: center; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--teal); }
+    .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(3.5rem, 6vw, 5.5rem); color: var(--white); line-height: 1.0; margin-bottom: 20px; letter-spacing: -0.02em; }
+    .hero h1 em { color: var(--teal); font-style: italic; }
+    .hero-sub { font-size: 1.05rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 40px; font-weight: 300; max-width: 440px; }
+    .hero-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); }
+    .meta-value { font-size: 0.92rem; color: var(--white); font-weight: 500; }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 36px; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: var(--white); padding: 13px 26px; border-radius: 8px; text-decoration: none; font-size: 0.88rem; font-weight: 600; transition: background 0.2s, transform 0.2s; cursor: pointer; border: none; }
+    .btn-primary:hover { background: var(--blue-bright); transform: translateY(-2px); color: var(--white); }
+    .btn-primary::after { content: '→'; }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); color: var(--white); padding: 13px 26px; border-radius: 8px; text-decoration: none; font-size: 0.88rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.15); transition: background 0.2s; cursor: pointer; }
+    .btn-secondary:hover { background: rgba(255,255,255,0.14); color: var(--white); }
+    .hero-right { display: flex; align-items: center; justify-content: center; }
+    .pipeline-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 36px 32px; width: 100%; max-width: 380px; }
+    .pipeline-card-title { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 28px; }
+    .p-step { display: flex; align-items: flex-start; gap: 16px; position: relative; padding-bottom: 6px; }
+    .p-step:not(:last-child) { margin-bottom: 6px; }
+    .p-step:not(:last-child)::after { content: ''; position: absolute; left: 18px; top: 40px; width: 2px; height: 26px; background: rgba(255,255,255,0.1); }
+    .p-num { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 500; flex-shrink: 0; border: 2px solid; margin-top: 2px; }
+    .p-num.s1 { background: rgba(30,111,230,0.2); border-color: var(--s1); color: #7ab3f7; }
+    .p-num.s2 { background: rgba(124,58,237,0.2); border-color: var(--s2); color: #c4b5fd; }
+    .p-num.s3 { background: rgba(5,150,105,0.2); border-color: var(--s3); color: #6ee7b7; }
+    .p-num.s4 { background: rgba(219,108,26,0.2); border-color: var(--s4); color: #fcd34d; }
+    .p-body { padding-top: 4px; padding-bottom: 24px; }
+    .p-verb { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--white); line-height: 1; margin-bottom: 5px; }
+    .p-desc { font-size: 0.79rem; color: rgba(255,255,255,0.42); line-height: 1.45; font-weight: 300; }
+    .reg-note { margin-top: 22px; padding: 14px 18px; border: 1px solid rgba(0,201,177,0.25); border-radius: 10px; background: rgba(0,201,177,0.05); font-size: 0.79rem; color: rgba(255,255,255,0.55); line-height: 1.55; }
+    .reg-note strong { color: var(--teal); font-weight: 600; }
+
+    /* INTRO STRIP */
+    .intro-strip { background: var(--white); padding: 80px 0; }
+    .intro-strip-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--blue); flex-shrink: 0; }
+    .section-label.light { color: var(--teal); }
+    .section-label.light::before { background: var(--teal); }
+    .page-title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); color: var(--navy); line-height: 1.15; margin-bottom: 32px; letter-spacing: -0.02em; }
+    .page-title em { color: var(--blue); font-style: italic; }
+    .page-title.light { color: var(--white); }
+    .page-title.light em { color: var(--teal); }
+    .intro-text p { font-size: 1.02rem; line-height: 1.85; color: var(--text-mid); margin-bottom: 18px; font-weight: 300; }
+    .intro-text p strong { color: var(--navy); font-weight: 600; }
+    .principle-box { margin-top: 32px; padding: 26px 30px; border-left: 3px solid var(--teal); background: linear-gradient(135deg, rgba(0,201,177,0.04), rgba(30,111,230,0.04)); border-radius: 0 12px 12px 0; }
+    .principle-box p { font-family: 'DM Serif Display', serif; font-size: 1.05rem; line-height: 1.65; color: var(--navy); font-style: italic; margin: 0; }
+    .intro-right h3 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--navy); margin-bottom: 16px; margin-top: 8px; }
+    .intro-right h3 em { color: var(--blue); font-style: italic; }
+    .intro-right p { font-size: 0.95rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 14px; font-weight: 300; }
+
+    /* QUICK LINKS */
+    .quick-links { background: var(--cream); padding: 80px 0; }
+    .quick-links-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+    .quick-links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+    .ql-card { background: var(--white); border-radius: 16px; padding: 32px; text-decoration: none; border-top: 3px solid var(--blue); transition: transform 0.2s, box-shadow 0.2s; display: block; cursor: pointer; }
+    .ql-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+    .ql-card.t2 { border-top-color: var(--s2); }
+    .ql-card.t3 { border-top-color: var(--s3); }
+    .ql-icon { font-size: 1.8rem; margin-bottom: 16px; }
+    .ql-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--navy); margin-bottom: 10px; }
+    .ql-card p { font-size: 0.86rem; color: var(--text-light); line-height: 1.6; }
+    .ql-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 0.82rem; font-weight: 600; color: var(--blue); text-decoration: none; }
+
+    /* SUBMISSION PAGE */
+    .sub-hero { background: var(--navy); padding: 80px 0 100px; }
+    .sub-hero-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+    .sub-intro { font-size: 1.05rem; color: rgba(255,255,255,0.6); line-height: 1.8; max-width: 680px; font-weight: 300; margin-top: 16px; }
+    .topics-section { background: var(--cream); padding: 80px 0; }
+    .topics-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+    .topics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 16px; }
+    .topic-card { background: var(--white); border-radius: 16px; padding: 32px; border-top: 3px solid; transition: transform 0.2s; }
+    .topic-card:hover { transform: translateY(-3px); }
+    .topic-card.s1 { border-color: var(--s1); }
+    .topic-card.s2 { border-color: var(--s2); }
+    .topic-card.s3 { border-color: var(--s3); }
+    .topic-card.s4 { border-color: var(--s4); }
+    .topic-stage { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+    .topic-stage.s1 { color: var(--s1); } .topic-stage.s2 { color: var(--s2); } .topic-stage.s3 { color: var(--s3); } .topic-stage.s4 { color: var(--s4); }
+    .topic-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 16px; }
+    .topic-card ul { list-style: none; padding: 0; }
+    .topic-card ul li { font-size: 0.86rem; color: var(--text-mid); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: flex-start; gap: 8px; }
+    .topic-card ul li:last-child { border-bottom: none; }
+    .topic-card ul li::before { content: '→'; font-size: 0.72rem; flex-shrink: 0; margin-top: 2px; }
+    .topic-card.s1 li::before { color: var(--s1); } .topic-card.s2 li::before { color: var(--s2); } .topic-card.s3 li::before { color: var(--s3); } .topic-card.s4 li::before { color: var(--s4); }
+    .dates-section { background: var(--white); padding: 80px 0; }
+    .dates-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .dates-list { display: flex; flex-direction: column; gap: 0; }
+    .date-item { display: flex; align-items: flex-start; gap: 20px; padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .date-item:last-child { border-bottom: none; }
+    .date-badge { background: var(--navy); color: var(--white); border-radius: 10px; padding: 12px 16px; text-align: center; flex-shrink: 0; min-width: 80px; }
+    .date-badge .day { font-family: 'DM Serif Display', serif; font-size: 1.4rem; line-height: 1; display: block; }
+    .date-badge .month { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); display: block; margin-top: 3px; }
+    .date-label { font-weight: 600; color: var(--navy); font-size: 0.92rem; margin-bottom: 4px; }
+    .date-note { font-size: 0.8rem; color: var(--text-light); }
+    .format-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--navy); margin-bottom: 20px; }
+    .format-box p { font-size: 0.93rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 14px; }
+    .format-list { list-style: none; padding: 0; margin-bottom: 20px; }
+    .format-list li { font-size: 0.9rem; color: var(--text-mid); padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+    .format-list li:last-child { border-bottom: none; }
+    .format-list li::before { content: '·'; color: var(--blue); font-weight: 700; font-size: 1.1rem; flex-shrink: 0; }
+    .btn-large { display: inline-flex; align-items: center; gap: 10px; background: var(--blue); color: var(--white); padding: 16px 32px; border-radius: 10px; text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: background 0.2s, transform 0.2s; margin-top: 28px; }
+    .btn-large:hover { background: var(--blue-bright); transform: translateY(-2px); color: var(--white); }
+    .btn-large::after { content: '→'; }
+
+    /* SCHEDULE PAGE */
+    .schedule-tbd { background: var(--white); padding: 100px 40px; text-align: center; max-width: 1080px; margin: 0 auto; }
+    .tbd-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; max-width: 700px; margin: 40px auto; }
+    .tbd-card { background: var(--cream); border-radius: 14px; padding: 24px; }
+    .tbd-card.s1 { border-top: 3px solid var(--s1); } .tbd-card.s2 { border-top: 3px solid var(--s2); } .tbd-card.s3 { border-top: 3px solid var(--s3); }
+    .tbd-card-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .tbd-card h4 { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+    .tbd-card p { font-size: 0.82rem; color: var(--text-light); line-height: 1.5; }
+
+    /* ORGANIZERS PAGE */
+    .org-hero { background: var(--navy); padding: 80px 0 100px; }
+    .org-hero-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+    .org-section { background: var(--cream); padding: 80px 0; }
+    .org-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+    .people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap: 24px; margin-top: 16px; }
+    .person-card { background: var(--white); border-radius: 16px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+    .person-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.09); }
+    .person-photo { width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--navy-mid, #112240); display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 2.4rem; color: rgba(255,255,255,0.18); overflow: hidden; }
+    .person-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .person-info { padding: 18px 20px; }
+    .person-name { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--navy); margin-bottom: 4px; line-height: 1.3; }
+    .person-role { font-size: 0.78rem; color: var(--text-light); line-height: 1.4; }
+    .person-email { display: block; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--blue); text-decoration: none; word-break: break-all; }
+    .person-email:hover { text-decoration: underline; }
+    .advisory-block { margin-top: 72px; }
+    .advisory-block h3 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--navy); margin-bottom: 8px; }
+    .advisory-block > p { font-size: 0.92rem; color: var(--text-light); margin-bottom: 28px; }
+
+    /* FOOTER */
+    .site-footer { background: var(--navy); padding: 70px 0 0; }
+    .footer-inner { max-width: 1080px; margin: 0 auto; padding: 0 40px 60px; display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: start; }
+    .footer-brand { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: var(--white); margin-bottom: 14px; }
+    .footer-brand span { color: var(--teal); font-style: italic; }
+    .footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.38); max-width: 440px; line-height: 1.65; font-style: italic; margin-bottom: 24px; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.82rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+    .footer-links a:hover { color: var(--teal); }
+    .footer-right { text-align: right; }
+    .footer-contact-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+    .footer-email { color: var(--white); text-decoration: none; font-size: 0.95rem; font-weight: 500; display: block; margin-bottom: 20px; }
+    .footer-email:hover { color: var(--teal); }
+    .footer-event { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+    .footer-event span { font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+    .footer-bottom { max-width: 1080px; margin: 0 auto; padding: 20px 40px; border-top: 1px solid rgba(255,255,255,0.07); }
+    .footer-bottom p { font-size: 0.76rem; color: rgba(255,255,255,0.22); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; min-height: auto; gap: 40px; }
+      .intro-strip-inner { grid-template-columns: 1fr; gap: 48px; }
+      .quick-links-grid { grid-template-columns: 1fr; }
+      .topics-grid { grid-template-columns: 1fr; }
+      .dates-inner { grid-template-columns: 1fr; gap: 48px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+      .footer-right { text-align: left; }
+      .footer-event { align-items: flex-start; }
+      .tbd-cards { grid-template-columns: 1fr; }
+      .nav-inner { padding: 0 24px; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .site-nav.open .nav-links { display: flex; flex-direction: column; position: absolute; top: var(--nav-h); left: 0; right: 0; background: var(--white); padding: 20px 24px; border-bottom: 1px solid rgba(0,0,0,0.08); box-shadow: 0 8px 24px rgba(0,0,0,0.06); gap: 16px; }
+      .nav-toggle { display: flex; }
+      .hero h1 { font-size: 3rem; }
+      .hero-grid { padding: 60px 24px; }
+      .people-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-left > * { animation: fadeUp 0.65s ease both; }
+    .hero-left > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-left > *:nth-child(2) { animation-delay: 0.15s; }
+    .hero-left > *:nth-child(3) { animation-delay: 0.25s; }
+    .hero-left > *:nth-child(4) { animation-delay: 0.35s; }
+    .hero-left > *:nth-child(5) { animation-delay: 0.42s; }
+    .hero-right { animation: fadeUp 0.65s 0.5s ease both; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav" id="site-nav">
+  <div class="nav-inner">
+    <a class="nav-brand" onclick="showPage('home')" style="cursor:pointer">BRIDGE <span>Workshop</span></a>
+    <button class="nav-toggle" onclick="document.getElementById('site-nav').classList.toggle('open')" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
+      <a onclick="showPage('submission')" id="nav-submission">Call for Papers</a>
+      <a onclick="showPage('schedule')" id="nav-schedule">Schedule</a>
+      <a onclick="showPage('organizers')" id="nav-organizers">Organizers</a>
     </div>
   </div>
-</section>
+</nav>
 
-<!-- INTRO STRIP -->
-<section class="intro-strip">
-  <div class="intro-strip-inner">
-    <div class="intro-text">
-      <div class="section-label">About the Workshop</div>
-      <h2 class="page-title" style="font-size: 1.9rem; margin-bottom: 24px;">Building Medical AI That Works — Safe, Effective, and Clinically Valuable</h2>
-      <p>The field has focused heavily on developing state-of-the-art models, benchmarking on static datasets, and optimizing metrics that often do not reflect the clinical task. The result: AI models that perform well in research settings routinely fail to deliver meaningful benefit once deployed in clinical practice — and in some cases lead to serious consequences impacting patients and the healthcare system.</p>
-      <p>To build medical AI that works safely, effectively, and as intended — while adding real value to clinical practice — we must start with the end goal. <strong>What problem will this AI solve? What will it do for the patient? What value will it add to the clinician or health system?</strong> The end goal must be defined before the model is built.</p>
-      <p>We must also ensure that every stage of AI development has a mechanism to measure risk, that we choose the right metrics to evaluate those risks, and that every design and development decision aligns with safety and responsible AI principles.</p>
-      <div class="principle-box">
-        <p>"If we cannot evaluate it, we cannot measure its performance or clinical value. If we cannot measure its value, we cannot regulate it. And if we cannot regulate it, we should not deploy it. And if we do not monitor it, we cannot sustain it."</p>
+<!-- ═══════════ HOME PAGE ═══════════ -->
+<div id="page-home" class="page-section active">
+
+  <section class="hero">
+    <div class="hero-bg-1"></div>
+    <div class="hero-bg-2"></div>
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-eyebrow">MICCAI 2026 Workshop</div>
+        <h1>BRIDGE<br><em>Workshop</em></h1>
+        <p class="hero-sub">Bridging Regulatory Science and Medical Imaging Evaluation — from technical performance to real-world utility and clinical value.</p>
+        <div class="hero-meta">
+          <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">September 27, 2026 · Strasbourg, France</span></div>
+          <div class="meta-item"><span class="meta-label">Venue</span><span class="meta-value">MICCAI 2026</span></div>
+          <div class="meta-item"><span class="meta-label">Proceedings</span><span class="meta-value">Springer LNCS</span></div>
+        </div>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="showPage('submission')">Submit a Paper</button>
+          <button class="btn-secondary" onclick="showPage('organizers')">Meet the Team</button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="pipeline-card">
+          <div class="pipeline-card-title">From Performance to Patient Benefit</div>
+          <div class="p-step"><div class="p-num s1">01</div><div class="p-body"><div class="p-verb">Evaluate It</div><div class="p-desc">Rigorous technical assessment of AI model performance</div></div></div>
+          <div class="p-step"><div class="p-num s2">02</div><div class="p-body"><div class="p-verb">Measure Its Value</div><div class="p-desc">Does it add value, or genuinely improve outcomes and clinical decisions?</div></div></div>
+          <div class="p-step"><div class="p-num s3">03</div><div class="p-body"><div class="p-verb">Deploy It</div><div class="p-desc">Safe, effective, and responsible clinical deployment</div></div></div>
+          <div class="p-step"><div class="p-num s4">04</div><div class="p-body"><div class="p-verb">Monitor It</div><div class="p-desc">Post-market monitoring: drift detection, ongoing performance validation, and sustained safety and effectiveness</div></div></div>
+          <div class="reg-note"><strong>Regulatory-driven AI innovation.</strong> Every stage of AI development should align with safety standards, and every risk, every failure — must be measured, documented, and mitigated.</div>
+        </div>
       </div>
     </div>
-    <div class="intro-right">
-      <div class="section-label">What Makes BRIDGE Different</div>
-      <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--navy); margin-bottom: 16px;">Regulation is not a <em>checkpoint</em> — it is the standard</h3>
-      <p>While many MICCAI workshops focus on technical innovation and performance improvements on benchmark datasets, BRIDGE focuses on what comes next: how AI innovations should be evaluated, translated, and implemented so they can function safely, effectively, and as intended in real clinical settings.</p>
-      <p>BRIDGE creates a forum to examine evaluation pitfalls, weak or mismatched performance metrics, limited clinical value evidence, deployment failures, workflow misalignment, post-deployment monitoring challenges, and the regulatory expectations needed to support safe and effective translation.</p>
-      <p>It brings together AI researchers, clinicians, regulatory scientists, health economists, industry leaders, and implementation experts to discuss how innovative medical AI technologies can move from research prototypes to clinically useful tools.</p>
-      <a href="{{ site.baseurl }}/submission" class="btn-primary">Submit a Paper</a>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- QUICK LINKS -->
-<section class="quick-links">
-  <div class="quick-links-inner">
-    <div class="section-label">Explore</div>
-    <h2 class="page-title" style="font-size: 1.9rem; margin-bottom: 0;">Get Involved</h2>
-    <div class="quick-links-grid">
-      <a href="{{ site.baseurl }}/submission" class="ql-card">
-        <div class="ql-icon">📄</div>
-        <h3>Call for Papers</h3>
-        <p>Submit original research, empirical studies, position papers, or negative results across all four pipeline stages.</p>
-        <span class="ql-link">View topics and dates</span>
-      </a>
-      <a href="{{ site.baseurl }}/schedule" class="ql-card t2">
-        <div class="ql-icon">📅</div>
-        <h3>Workshop Schedule</h3>
-        <p>Program details coming soon. The workshop will bring together participants from academia, industry, and regulatory bodies.</p>
-        <span class="ql-link" style="color: var(--s2);">See the program</span>
-      </a>
-      <a href="{{ site.baseurl }}/organizers" class="ql-card t3">
-        <div class="ql-icon">👥</div>
-        <h3>Organizers and Advisory Board</h3>
-        <p>Meet the team of researchers, clinicians, and regulatory scientists behind BRIDGE.</p>
-        <span class="ql-link" style="color: var(--s3);">Meet the team</span>
-      </a>
+  <section class="intro-strip">
+    <div class="intro-strip-inner">
+      <div class="intro-text">
+        <div class="section-label">About the Workshop</div>
+        <h2 class="page-title" style="font-size:1.9rem; margin-bottom:24px;">Building Medical AI That Works — Safe, Effective, and Clinically Valuable</h2>
+        <p>The field has focused heavily on developing state-of-the-art models, benchmarking on static datasets, and optimizing metrics that often do not reflect the clinical task. The result: AI models that perform well in research settings routinely fail to deliver meaningful benefit once deployed in clinical practice — and in some cases lead to serious consequences impacting patients and the healthcare system.</p>
+        <p>To build medical AI that works safely, effectively, and as intended — while adding real value to clinical practice — we must start with the end goal. <strong>What problem will this AI solve? What will it do for the patient? What value will it add to the clinician or health system?</strong> The end goal must be defined before the model is built.</p>
+        <p>We must also ensure that every stage of AI development has a mechanism to measure risk, that we choose the right metrics to evaluate those risks, and that every design and development decision aligns with safety and responsible AI principles.</p>
+        <div class="principle-box">
+          <p>"If we cannot evaluate it, we cannot measure its performance or clinical value. If we cannot measure its value, we cannot regulate it. And if we cannot regulate it, we should not deploy it. And if we do not monitor it, we cannot sustain it."</p>
+        </div>
+      </div>
+      <div class="intro-right">
+        <div class="section-label">What Makes BRIDGE Different</div>
+        <h3>Regulation is not a <em>checkpoint</em> — it is the standard</h3>
+        <p>While many MICCAI workshops focus on technical innovation and performance improvements on benchmark datasets, BRIDGE focuses on what comes next: how AI innovations should be evaluated, translated, and implemented so they can function safely, effectively, and as intended in real clinical settings.</p>
+        <p>BRIDGE creates a forum to examine evaluation pitfalls, weak or mismatched performance metrics, limited clinical value evidence, deployment failures, workflow misalignment, post-deployment monitoring challenges, and the regulatory expectations needed to support safe and effective translation.</p>
+        <p>It brings together AI researchers, clinicians, regulatory scientists, health economists, industry leaders, and implementation experts to discuss how medical AI can move from research prototypes to clinically useful tools.</p>
+        <button class="btn-primary" onclick="showPage('submission')" style="margin-top:16px;">Submit a Paper</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="quick-links">
+    <div class="quick-links-inner">
+      <div class="section-label">Explore</div>
+      <h2 class="page-title" style="font-size:1.9rem; margin-bottom:0;">Get Involved</h2>
+      <div class="quick-links-grid">
+        <div class="ql-card" onclick="showPage('submission')">
+          <div class="ql-icon">📄</div>
+          <h3>Call for Papers</h3>
+          <p>Submit original research, empirical studies, position papers, or negative results across all four pipeline stages.</p>
+          <span class="ql-link">View topics and dates</span>
+        </div>
+        <div class="ql-card t2" onclick="showPage('schedule')">
+          <div class="ql-icon">📅</div>
+          <h3>Workshop Schedule</h3>
+          <p>Program details coming soon. The workshop will bring together participants from academia, industry, and regulatory bodies.</p>
+          <span class="ql-link" style="color:var(--s2);">See the program</span>
+        </div>
+        <div class="ql-card t3" onclick="showPage('organizers')">
+          <div class="ql-icon">👥</div>
+          <h3>Organizers and Advisory Board</h3>
+          <p>Meet the team of researchers, clinicians, and regulatory scientists behind BRIDGE.</p>
+          <span class="ql-link" style="color:var(--s3);">Meet the team</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end home -->
+
+<!-- ═══════════ SUBMISSION PAGE ═══════════ -->
+<div id="page-submission" class="page-section">
+
+  <section class="sub-hero">
+    <div class="sub-hero-inner">
+      <div class="section-label light">Call for Papers</div>
+      <h1 class="page-title light">Submit Your <em>Research</em></h1>
+      <p class="sub-intro">We invite original research papers, empirical studies, position papers, and negative results on topics related to the evaluation, clinical translation, regulation, and post-market monitoring of medical AI systems.</p>
+      <div style="margin-top:32px;"><a href="https://openreview.net/group?id=MICCAI.org/2026/Workshop/FAIMI-BRIDGE-EPIMI" class="btn-large" target="_blank" rel="noopener">Submit on OpenReview</a></div>
+    </div>
+  </section>
+
+  <section class="topics-section">
+    <div class="topics-inner">
+      <div class="section-label">Topics of Interest</div>
+      <h2 class="page-title">Research <em>Topics</em></h2>
+      <p style="font-size:1rem; color:var(--text-mid); line-height:1.7; max-width:700px; margin-bottom:40px; font-weight:300;">The BRIDGE track welcomes submissions on the evaluation and clinical translation of medical AI, including technical performance assessment, clinical utility, regulatory science, and post-deployment monitoring. Topics include but are not limited to:</p>
+      <div class="topics-grid">
+        <div class="topic-card s1">
+          <div class="topic-stage s1">Stage 01</div>
+          <h3>AI Evaluation and Performance Assessment</h3>
+          <ul>
+            <li>Evaluation frameworks and methodologies for medical AI models</li>
+            <li>Performance metrics: sensitivity, specificity, calibration, and uncertainty quantification</li>
+            <li>Evaluation of model robustness, generalizability, and failure modes</li>
+            <li>Benchmark design and limitations of static dataset evaluation</li>
+            <li>Evaluation of large language models and foundation models in clinical settings</li>
+            <li>Explainability and interpretability methods and their clinical relevance</li>
+            <li>Negative results and lessons learned from failed evaluations</li>
+          </ul>
+        </div>
+        <div class="topic-card s2">
+          <div class="topic-stage s2">Stage 02</div>
+          <h3>Clinical Utility and Value Assessment</h3>
+          <ul>
+            <li>Methods for measuring clinical utility and decision impact of AI tools</li>
+            <li>Clinical validation study design for AI-based medical devices</li>
+            <li>Patient outcome metrics and how to link them to AI performance</li>
+            <li>Health economic evaluation and cost-effectiveness of AI systems</li>
+            <li>Studies reporting limited, negative, or unexpected clinical value</li>
+            <li>Identification of mismatches between technical metrics and clinical outcomes</li>
+            <li>Human factors and the effect of AI on clinician decision-making</li>
+          </ul>
+        </div>
+        <div class="topic-card s3">
+          <div class="topic-stage s3">Stage 03</div>
+          <h3>Regulatory Science and Clinical Deployment</h3>
+          <ul>
+            <li>Regulatory frameworks for AI-based medical devices (FDA, EU MDR, and international)</li>
+            <li>Software as a Medical Device (SaMD) evaluation and approval pathways</li>
+            <li>Pre-market evaluation requirements and evidence standards for AI</li>
+            <li>Algorithmic bias, fairness, and equity in clinical AI deployment</li>
+            <li>Workflow integration and implementation challenges in clinical environments</li>
+            <li>Case studies of AI deployment: barriers, facilitators, and lessons learned</li>
+            <li>Ethics, transparency, and accountability in clinical AI systems</li>
+          </ul>
+        </div>
+        <div class="topic-card s4">
+          <div class="topic-stage s4">Stage 04</div>
+          <h3>Post-Market Monitoring and Lifecycle Management</h3>
+          <ul>
+            <li>Post-market surveillance methods for deployed AI systems</li>
+            <li>Detection of performance degradation, data drift, and distribution shift</li>
+            <li>Frameworks for ongoing monitoring of safety and clinical effectiveness</li>
+            <li>Model updating, retraining, and version control under regulatory constraints</li>
+            <li>Continual learning systems and associated regulatory considerations</li>
+            <li>Incident reporting and corrective action processes for AI medical devices</li>
+            <li>Long-term real-world evidence generation for AI systems</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dates-section">
+    <div class="dates-inner">
+      <div>
+        <div class="section-label">Important Dates</div>
+        <h2 class="page-title" style="font-size:1.8rem;">Submission <em>Deadlines</em></h2>
+        <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:24px;">All deadlines are 23:59 Pacific Time.</p>
+        <div class="dates-list">
+          <div class="date-item">
+            <div class="date-badge"><span class="day">1</span><span class="month">Jul 2026</span></div>
+            <div><div class="date-label">Full Paper Deadline</div><div class="date-note">23:59 Pacific Time</div></div>
+          </div>
+          <div class="date-item">
+            <div class="date-badge"><span class="day">31</span><span class="month">Jul 2026</span></div>
+            <div><div class="date-label">Notification of Acceptance</div><div class="date-note">Authors notified by email</div></div>
+          </div>
+          <div class="date-item">
+            <div class="date-badge"><span class="day">15</span><span class="month">Aug 2026</span></div>
+            <div><div class="date-label">Camera-Ready Version</div><div class="date-note">Final submission due</div></div>
+          </div>
+          <div class="date-item">
+            <div class="date-badge" style="background:var(--teal-dim);"><span class="day">27</span><span class="month">Sep 2026</span></div>
+            <div><div class="date-label">Workshop Day</div><div class="date-note">MICCAI 2026 · Strasbourg, France</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="format-box">
+        <div class="section-label">Format</div>
+        <h3>Submission <em>Format</em></h3>
+        <p>All submissions must follow the official Springer LNCS format and be fully anonymized for double-blind peer review.</p>
+        <ul class="format-list">
+          <li>Official <a href="https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines">Springer LNCS format</a> (Word and LaTeX templates available)</li>
+          <li>Up to <strong>8 pages</strong> of main content</li>
+          <li>Up to <strong>2 additional pages</strong> for references only</li>
+          <li>Double-blind peer review — fully anonymized submissions</li>
+          <li>Remove author names, affiliations, and self-identifying references</li>
+          <li>Submit via <a href="https://openreview.net/group?id=MICCAI.org/2026/Workshop/FAIMI-BRIDGE-EPIMI">OpenReview</a></li>
+        </ul>
+        <p>Accepted papers will be published in the MICCAI 2026 Workshops proceedings in Springer's <em>Lecture Notes in Computer Science (LNCS)</em> series.</p>
+        <a href="https://openreview.net/group?id=MICCAI.org/2026/Workshop/FAIMI-BRIDGE-EPIMI" class="btn-large" target="_blank" rel="noopener">Submit on OpenReview</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end submission -->
+
+<!-- ═══════════ SCHEDULE PAGE ═══════════ -->
+<div id="page-schedule" class="page-section">
+  <section class="sub-hero">
+    <div class="sub-hero-inner">
+      <div class="section-label light">Program</div>
+      <h1 class="page-title light">Workshop <em>Schedule</em></h1>
+      <p class="sub-intro">Full program details are to be announced. The workshop will bring together participants from academia, industry, and regulatory bodies for a full day of presentations, discussions, and networking.</p>
+      <div style="display:inline-flex; align-items:center; gap:12px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); color:var(--white); padding:10px 20px; border-radius:8px; font-size:0.88rem; margin-top:24px;">
+        📅 <span style="color:var(--teal); font-family:'JetBrains Mono',monospace; font-size:0.78rem;">September 27, 2026</span> &nbsp;·&nbsp; MICCAI 2026 · Strasbourg, France
+      </div>
+    </div>
+  </section>
+  <div class="schedule-tbd">
+    <div style="font-size:3rem; margin-bottom:24px;">📋</div>
+    <h2 style="font-family:'DM Serif Display',serif; font-size:2rem; color:var(--navy); margin-bottom:16px;">Program Coming Soon</h2>
+    <p style="font-size:1rem; color:var(--text-mid); line-height:1.8; max-width:600px; margin:0 auto 40px;">The full workshop program is currently being finalized. The program will include keynote talks, oral and poster presentations, and a panel discussion featuring participants from academia, industry, and regulatory bodies.</p>
+    <div class="tbd-cards">
+      <div class="tbd-card s1"><div class="tbd-card-icon">🎤</div><h4>Keynote Talks</h4><p>Invited speakers from academia, industry, and regulatory agencies</p></div>
+      <div class="tbd-card s2"><div class="tbd-card-icon">📄</div><h4>Paper Presentations</h4><p>Oral and poster presentations of accepted research papers</p></div>
+      <div class="tbd-card s3"><div class="tbd-card-icon">💬</div><h4>Panel Discussion</h4><p>Cross-sector dialogue on regulatory-driven AI innovation</p></div>
+    </div>
+    <button class="btn-large" onclick="showPage('submission')">Submit a Paper</button>
+  </div>
+</div><!-- end schedule -->
+
+<!-- ═══════════ ORGANIZERS PAGE ═══════════ -->
+<div id="page-organizers" class="page-section">
+  <section class="org-hero">
+    <div class="org-hero-inner">
+      <div class="section-label light">The Team</div>
+      <h1 class="page-title light">Organizers &amp; <em>Advisory Board</em></h1>
+      <p class="sub-intro">The BRIDGE workshop is organized by a team of researchers and scientists working at the intersection of medical AI, evaluation science, and regulatory research.</p>
+    </div>
+  </section>
+
+  <section class="org-section">
+    <div class="org-inner">
+      <div class="section-label">Organizers</div>
+      <h2 class="page-title" style="font-size:2rem;">Workshop <em>Organizers</em></h2>
+      <div class="people-grid" style="grid-template-columns:repeat(3,1fr); max-width:700px;">
+        <div class="person-card">
+          <div class="person-photo"><img src="https://raw.githubusercontent.com/bridge-regsci/miccaibridge/master/assets/img/Ghada.jpg" alt="Dr. Ghada Zamzmi" onerror="this.style.display='none';this.parentElement.textContent='GZ'"></div>
+          <div class="person-info"><div class="person-name">Dr. Ghada Zamzmi</div><div class="person-role">HeartFlow, USA</div><a href="mailto:gzamzmi@heartflow.com" class="person-email">gzamzmi@heartflow.com</a></div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="https://raw.githubusercontent.com/bridge-regsci/miccaibridge/master/assets/img/Annika.jpg" alt="Dr. Annika Reinke" onerror="this.style.display='none';this.parentElement.textContent='AR'"></div>
+          <div class="person-info"><div class="person-name">Dr. Annika Reinke</div><div class="person-role">German Cancer Research Center (DKFZ), Germany</div><a href="mailto:a.reinke@dkfz-heidelberg.de" class="person-email">a.reinke@dkfz-heidelberg.de</a></div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="https://raw.githubusercontent.com/bridge-regsci/miccaibridge/master/assets/img/Thijs.jpg" alt="Dr. Thijs Kooi" onerror="this.style.display='none';this.parentElement.textContent='TK'"></div>
+          <div class="person-info"><div class="person-name">Dr. Thijs Kooi</div><div class="person-role">Lunit Inc, South Korea</div><a href="mailto:tkooi@lunit.io" class="person-email">tkooi@lunit.io</a></div>
+        </div>
+      </div>
+
+      <div class="advisory-block">
+        <div class="section-label">Advisory Board</div>
+        <h3>Scientific <em>Advisors</em></h3>
+        <p>Senior researchers and policy experts guiding the scientific and regulatory direction of BRIDGE.</p>
+        <div class="people-grid">
+          <div class="person-card">
+            <div class="person-photo"><img src="https://raw.githubusercontent.com/bridge-regsci/miccaibridge/master/assets/img/Ehsan.jpg" alt="Dr. Ehsan Adeli" onerror="this.style.display='none';this.parentElement.textContent='EA'"></div>
+            <div class="person-info"><div class="person-name">Dr. Ehsan Adeli</div><div class="person-role">Stanford University, USA</div></div>
+          </div>
+          <div class="person-card">
+            <div class="person-photo"><img src="https://raw.githubusercontent.com/bridge-regsci/miccaibridge/master/assets/img/Marzyeh.jpg" alt="Dr. Marzyeh Ghassemi" onerror="this.style.display='none';this.parentElement.textContent='MG'"></div>
+            <div class="person-info"><div class="person-name">Dr. Marzyeh Ghassemi</div><div class="person-role">MIT, USA</div></div>
+          </div>
+          <div class="person-card">
+            <div class="person-photo"><img src="https://raw.githubusercontent.com/bridge-regsci/miccaibridge/master/assets/img/Lena.jpg" alt="Dr. Lena Maier-Hein" onerror="this.style.display='none';this.parentElement.textContent='LM'"></div>
+            <div class="person-info"><div class="person-name">Dr. Lena Maier-Hein</div><div class="person-role">Heidelberg University, Germany</div></div>
+          </div>
+          <div class="person-card">
+            <div class="person-photo"><img src="https://raw.githubusercontent.com/bridge-regsci/miccaibridge/master/assets/img/Federica.jpg" alt="Dr. Federica Zanca" onerror="this.style.display='none';this.parentElement.textContent='FZ'"></div>
+            <div class="person-info"><div class="person-name">Dr. Federica Zanca</div><div class="person-role">EISMEA – European Commission, Belgium</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:72px; padding:36px; background:var(--white); border-radius:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px;">
+        <div>
+          <div class="section-label">Contact</div>
+          <p style="font-size:1rem; color:var(--text-mid); margin-top:8px;">Questions about the workshop? Reach out directly.</p>
+        </div>
+        <a href="mailto:zghada90@gmail.com" class="btn-large">zghada90@gmail.com</a>
+      </div>
+    </div>
+  </section>
+</div><!-- end organizers -->
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-brand">BRIDGE <span>Workshop</span></div>
+      <p class="footer-tagline">"If we cannot evaluate it, we cannot measure its performance or clinical value. If we cannot measure its value, we cannot regulate it. And if we cannot regulate it, we should not deploy it. And if we do not monitor it, we cannot sustain it."</p>
+      <div class="footer-links">
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('submission')">Call for Papers</a>
+        <a onclick="showPage('schedule')">Schedule</a>
+        <a onclick="showPage('organizers')">Organizers</a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-contact-label">Contact</div>
+      <a href="mailto:zghada90@gmail.com" class="footer-email">zghada90@gmail.com</a>
+      <div class="footer-event"><span>MICCAI 2026</span><span>September 27, 2026 · Strasbourg, France</span></div>
     </div>
   </div>
-</section>
+  <div class="footer-bottom"><p>© 2026 BRIDGE Workshop @ MICCAI</p></div>
+</footer>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('nav-' + id).classList.add('active');
+    document.getElementById('site-nav').classList.remove('open');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
