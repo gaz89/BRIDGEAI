@@ -1,4 +1,4 @@
-# BRIDGE Workshop @ MICCAI 2025
+# BRIDGE Workshop @ MICCAI 2026
 
 **Bridging Regulatory Science and Medical Imaging Evaluation**
 
