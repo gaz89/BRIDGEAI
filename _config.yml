@@ -1,0 +1,17 @@
+title: BRIDGE Workshop
+description: Bridging Regulatory Science and Medical Imaging Evaluation @ MICCAI 2025
+baseurl: "/miccaibridge"
+url: "https://bridge-regsci.github.io"
+
+# Build settings
+markdown: kramdown
+theme: null
+plugins:
+  - jekyll-seo-tag
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - README.md

@@ -1,0 +1,17 @@
+<nav class="site-nav" id="site-nav">
+  <div class="nav-inner">
+    <a href="{{ site.baseurl }}/" class="nav-brand">
+      BRIDGE <span>Workshop</span>
+    </a>
+    <button class="nav-toggle" onclick="document.getElementById('site-nav').classList.toggle('open')" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="{{ site.baseurl }}/" {% if page.page_id == 'home' %}class="active"{% endif %}>Home</a>
+      <a href="{{ site.baseurl }}/about" {% if page.page_id == 'about' %}class="active"{% endif %}>About</a>
+      <a href="{{ site.baseurl }}/submission" {% if page.page_id == 'submission' %}class="active"{% endif %}>Call for Papers</a>
+      <a href="{{ site.baseurl }}/schedule" {% if page.page_id == 'schedule' %}class="active"{% endif %}>Schedule</a>
+      <a href="{{ site.baseurl }}/about#organizers" {% if page.page_id == 'organizers' %}class="active"{% endif %}>Organizers</a>
+    </div>
+  </div>
+</nav>
